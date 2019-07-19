@@ -1,7 +1,3 @@
-/// <reference path="sectionData.d.ts" />
-/// <reference path="WheelOfFortuneConfig.d.ts" />
-
-
 class WheelOfFortune {
 
     private _canvas: HTMLCanvasElement;
@@ -17,7 +13,13 @@ class WheelOfFortune {
         } else {
             this._canvas = document.createElement('canvas');
         }
-        const radius = (this._canvas.width > this._canvas.height ? this._canvas.height: this._canvas.width) / 2;
+
+        let radius = 1024;
+        if (_config.preRenderSize === 'auto') {
+            radius = ((this._canvas.width > this._canvas.height ? this._canvas.height: this._canvas.width) / 2);
+        } else if (_config.preRenderSize) {
+            radius = _config.preRenderSize;
+        }
         this._wheelImg = this._preRenderWheelToImg(this._sectionData, radius);
         window.requestAnimationFrame(() => this._render());
     }
@@ -30,6 +32,7 @@ class WheelOfFortune {
         const ctx = canvas.getContext('2d');
         const fullCircle = 360 * Math.PI/180;
         const sectionAngle = fullCircle / sectionData.length;
+        const pins = this._config.pins;
         ctx.save();
         ctx.translate(canvas.width / 2, canvas.height / 2);
         ctx.rotate(-(90 * Math.PI / 180 + sectionAngle / 2));
@@ -42,6 +45,7 @@ class WheelOfFortune {
             ctx.fillStyle = element.backgroundColor;
             ctx.closePath();
             ctx.fill();
+
             ctx.rotate(sectionAngle / 2)
             ctx.textAlign = 'center';
             ctx.font = this._config.text ? this._config.text.font : '15px Arial';
@@ -55,21 +59,29 @@ class WheelOfFortune {
         });
         ctx.restore();
         if (this._config.pins && this._config.pins.color && this._config.pins.size > 0) {
-            this._drawPins(sectionData, radius);
+            this._drawPins(ctx, sectionData, radius);
         }
         img.src = canvas.toDataURL('');
         return img;
     }
 
-    private _drawPins(sectionData: SectionData[], radius: number) {
-        const ctx = this._canvas.getContext('2d');
-        const fullCircle = 360 * Math.PI/180;
+    private _drawPins(ctx: CanvasRenderingContext2D, sectionData: SectionData[], radius: number) {
+        const fullCircle = 360 * Math.PI / 180;
         const sectionAngle = fullCircle / sectionData.length;
+        const pins = this._config.pins;
         ctx.save();
-        ctx.translate(this._canvas.width / 2, this._canvas.height / 2);
-        ctx.rotate(-(90 * Math.PI / 180 + sectionAngle / 2));
+        ctx.translate(ctx.canvas.width / 2, ctx.canvas.height / 2);
+        ctx.rotate(90 * Math.PI / 180 + sectionAngle / 2);
         this._sectionData.forEach((_, index) => {
-            const angle = sectionAngle * index; 
+            ctx.save();
+            ctx.beginPath();
+            const angle = sectionAngle * index;
+            ctx.rotate(angle);
+            ctx.arc(-(radius - pins.size / 2 - pins.margin), 0, pins.size, 0, fullCircle);
+            ctx.fillStyle = pins.color;
+            ctx.fill();
+            ctx.closePath();
+            ctx.restore();
         });
         ctx.restore();
     }

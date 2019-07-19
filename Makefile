@@ -2,7 +2,9 @@ MINIFY = node node_modules/uglify-js/bin/uglifyjs
 DIST = dist
 
 build: dist/%.js
-	$(MINIFY) -o WheelOfFortune.min.js $(wildcard $(DIST)/*.js) 
+
+release: dist/%.js
+	$(MINIFY) -o WheelOfFortune.min.js $(wildcard $(DIST)/*.js) -m --mangle-props
 
 dist/%.js: node_modules
 	tsc

@@ -1,8 +1,10 @@
 declare class WheelOfFortuneConfig {
     strokColor?: string;
+    preRenderSize?: number|'auto';
     pins?: {
         color: string,
-        size: number
+        size: number,
+        margin: number
     };
     text?: {
         color: string;
