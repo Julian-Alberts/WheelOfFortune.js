@@ -1,6 +1,12 @@
 declare class WheelOfFortuneConfig {
     strokColor?: string;
-    preRenderSize?: number|'auto';
+    indicator? : {
+        color?: string,
+        style: 'none'|'static',
+        width?: number,
+        height?: number
+        
+    }
     pins?: {
         color: string,
         size: number,

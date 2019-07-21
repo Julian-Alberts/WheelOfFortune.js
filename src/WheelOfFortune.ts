@@ -5,21 +5,32 @@ class WheelOfFortune {
     private _lastFrame: number;
     private _currentRotation: number = 0;
     private _wheelImg: HTMLImageElement;
+    private _indicator: Indicator;
+    private _config: WheelOfFortuneConfig;
 
-    constructor(rootElement: HTMLElement, private _sectionData: SectionData[], private _winCallback: (id: number) => void, private _config: WheelOfFortuneConfig = {}) {
-
+    constructor(rootElement: HTMLElement, private _sectionData: SectionData[], private _winCallback: (id: number) => void, config: WheelOfFortuneConfig = {}) {
+        this._config = config = this._fillConfig(config);
         if (rootElement.tagName === 'CANVAS') {
             this._canvas = <HTMLCanvasElement>rootElement;
         } else {
             this._canvas = document.createElement('canvas');
         }
-
-        let radius = 1024;
-        if (_config.preRenderSize === 'auto') {
-            radius = ((this._canvas.width > this._canvas.height ? this._canvas.height: this._canvas.width) / 2);
-        } else if (_config.preRenderSize) {
-            radius = _config.preRenderSize;
+        config.indicator = {
+            color: 'black',
+            width: 20,
+            height: 30,
+            style: "static"
+        };
+        this._config.indicator = config.indicator;
+        if (config.indicator) {
+            switch(config.indicator.style) {
+                case 'static': 
+                    this._indicator = new StaticIndicator(config.indicator.color, config.indicator.width, config.indicator.height);
+                    break;
+            }
         }
+
+        const radius = ((this._canvas.width > this._canvas.height ? this._canvas.height: this._canvas.width) / 2);
         this._wheelImg = this._preRenderWheelToImg(this._sectionData, radius);
         window.requestAnimationFrame(() => this._render());
     }
@@ -32,7 +43,7 @@ class WheelOfFortune {
         const ctx = canvas.getContext('2d');
         const fullCircle = 360 * Math.PI/180;
         const sectionAngle = fullCircle / sectionData.length;
-        const pins = this._config.pins;
+
         ctx.save();
         ctx.translate(canvas.width / 2, canvas.height / 2);
         ctx.rotate(-(90 * Math.PI / 180 + sectionAngle / 2));
@@ -48,9 +59,9 @@ class WheelOfFortune {
 
             ctx.rotate(sectionAngle / 2)
             ctx.textAlign = 'center';
-            ctx.font = this._config.text ? this._config.text.font : '15px Arial';
-            ctx.fillStyle = element.textColor || (this._config.text?this._config.text.font:'black');
-            ctx.fillText(element.text, radius / 2, this._config.text?this._config.text.size/2:7.5, radius - 40);
+            ctx.font = this._config.text.font;
+            ctx.fillStyle = element.textColor || this._config.text.color;
+            ctx.fillText(element.text, radius / 2, this._config.text.size/2, radius - 40);
             if (this._config.strokColor) {
                 ctx.strokeStyle = this._config.strokColor;
                 ctx.stroke();
@@ -88,15 +99,25 @@ class WheelOfFortune {
 
     private _render() {
         const ctx = this._canvas.getContext('2d');
-        const radius = this._wheelImg.width / 2;
+        const imgSize = this._canvas.width > this._canvas.height ? this._canvas.height : this._canvas.width;
         const cWidth = this._canvas.width;
         const cHeight = this._canvas.height;
         ctx.clearRect(0,0,cWidth,cHeight);
         ctx.save();
-        ctx.translate(cWidth / 2, cHeight / 2);
+        if (this._indicator) {
+            ctx.translate(cWidth / 2, cHeight / 2 + this._config.indicator.height);
+        } else {
+            ctx.translate(cWidth / 2, cHeight / 2);
+        }
         ctx.rotate(this._currentRotation);
-        ctx.drawImage(this._wheelImg, -radius, -radius);
+        ctx.drawImage(this._wheelImg, -imgSize / 2, -imgSize / 2, imgSize, imgSize);
         ctx.restore();
+        if (this._indicator) {
+            ctx.save();
+            ctx.translate(cWidth / 2, (cHeight - imgSize) / 2);
+            this._indicator.render(ctx);
+            ctx.restore();
+        }
 
     }
 
@@ -136,6 +157,29 @@ class WheelOfFortune {
                 this._animateSpin(timeSinceLastFrame);
             });
         }
+    }
+
+    private _fillConfig(config: WheelOfFortuneConfig) {
+        if (config.indicator) {
+            config.indicator.color = config.indicator.color || 'black';
+            config.indicator.height = config.indicator.height || 30;
+            config.indicator.width = config.indicator.width || 10;
+            config.indicator.style = config.indicator.style || 'none';
+        } else {
+            config.indicator = {style: 'none'};
+        }
+        if (config.pins) {
+            config.pins.color = config.pins.color || 'black';
+            config.pins.margin = config.pins.margin || 10;
+            config.pins.size = config.pins.size || 10;
+        }
+        config.strokColor = config.strokColor || 'black';
+        if (config.text) {
+            config.text.color = config.text.color || 'black';
+            config.text.font = config.text.font || '15px Arial';
+            config.text.size = config.text.size || 15;
+        }
+        return config;
     }
 
 }
