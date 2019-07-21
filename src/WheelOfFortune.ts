@@ -41,12 +41,12 @@ class WheelOfFortune {
         const canvas = document.createElement('canvas');
         canvas.height = canvas.width = radius * 2;
         const ctx = canvas.getContext('2d');
-        const fullCircle = 360 * Math.PI/180;
+        const fullCircle = Math.PI * 2;
         const sectionAngle = fullCircle / sectionData.length;
 
         ctx.save();
         ctx.translate(canvas.width / 2, canvas.height / 2);
-        ctx.rotate(-(90 * Math.PI / 180 + sectionAngle / 2));
+        ctx.rotate((Math.PI + sectionAngle) / -2);
         sectionData.forEach((element, index) => {
             ctx.save();
             ctx.beginPath();
@@ -77,12 +77,12 @@ class WheelOfFortune {
     }
 
     private _drawPins(ctx: CanvasRenderingContext2D, sectionData: SectionData[], radius: number) {
-        const fullCircle = 360 * Math.PI / 180;
+        const fullCircle = Math.PI * 2;
         const sectionAngle = fullCircle / sectionData.length;
         const pins = this._config.pins;
         ctx.save();
         ctx.translate(ctx.canvas.width / 2, ctx.canvas.height / 2);
-        ctx.rotate(90 * Math.PI / 180 + sectionAngle / 2);
+        ctx.rotate((Math.PI + sectionAngle) / 2);
         this._sectionData.forEach((_, index) => {
             ctx.save();
             ctx.beginPath();
@@ -122,7 +122,7 @@ class WheelOfFortune {
     }
 
     private _animateSpin(timeSinceLastFrame: number) {
-        const fullCircle = 360 * Math.PI/180;
+        const fullCircle = Math.PI * 2;
         this._rotationsPerSecond -= .5 / 1000 * timeSinceLastFrame;
         if (this._rotationsPerSecond > 0) {
             this._currentRotation += fullCircle * this._rotationsPerSecond / 1000 * timeSinceLastFrame;
@@ -140,7 +140,7 @@ class WheelOfFortune {
     }
 
     private getCurrentTopSection(): number {
-        const fullCircle = 360 * Math.PI/180;
+        const fullCircle = Math.PI * 2;
         const sectionAngle = fullCircle / this._sectionData.length;
         const actualRotation = this._currentRotation % fullCircle;
         const id = ~~(actualRotation / sectionAngle + .5);
