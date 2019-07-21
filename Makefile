@@ -4,7 +4,7 @@ DIST = dist
 build: dist/%.js
 
 release: dist/%.js
-	$(MINIFY) -o WheelOfFortune.min.js $(wildcard $(DIST)/*.js) --mangle-props
+	$(MINIFY) -o WheelOfFortune.min.js $(wildcard $(DIST)/*.js) -m --mangle-props reserved=['spin']
 
 dist/%.js: node_modules
 	tsc
