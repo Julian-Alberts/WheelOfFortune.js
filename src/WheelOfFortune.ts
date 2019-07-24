@@ -59,7 +59,7 @@ class WheelOfFortune {
 
             ctx.rotate(sectionAngle / 2)
             ctx.textAlign = 'center';
-            ctx.font = this._config.text.font;
+            ctx.font = this._config.text.size + 'px ' + this._config.text.font;
             ctx.fillStyle = element.textColor || this._config.text.color;
             ctx.fillText(element.text, radius / 2, this._config.text.size/2, radius - 40);
             if (this._config.strokColor) {
@@ -178,12 +178,12 @@ class WheelOfFortune {
         if (!config.text) {
             config.text = {
                 color: 'black',
-                font: '15px Arial',
+                font: 'Arial',
                 size: 15,
             };
         }
         config.text.color = config.text.color || 'black';
-        config.text.font = config.text.font || '15px Arial';
+        config.text.font = config.text.font || 'Arial';
         config.text.size = config.text.size || 15;
         
         return config;
