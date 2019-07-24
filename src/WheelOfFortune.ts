@@ -8,7 +8,7 @@ class WheelOfFortune {
     private _indicator: Indicator;
     private _config: WheelOfFortuneConfig;
 
-    constructor(rootElement: HTMLElement, private _sectionData: SectionData[], private _winCallback: (id: number) => void, config: WheelOfFortuneConfig = {}) {
+    constructor(rootElement: HTMLElement, private _sectionData: SectionData[], private _winCallback: (section: SectionData) => void, config: WheelOfFortuneConfig = {}) {
         this._config = config = this._fillConfig(config);
         if (rootElement.tagName === 'CANVAS') {
             this._canvas = <HTMLCanvasElement>rootElement;
@@ -135,16 +135,17 @@ class WheelOfFortune {
                 this._animateSpin(timeSinceLastFrame);
             });
         } else {
-            this._winCallback(this.getCurrentTopSection());
+            this._winCallback(this._getCurrentTopSection());
         }
     }
 
-    private getCurrentTopSection(): number {
+    private _getCurrentTopSection(): SectionData {
         const fullCircle = Math.PI * 2;
         const sectionAngle = fullCircle / this._sectionData.length;
-        const actualRotation = this._currentRotation % fullCircle;
-        const id = ~~(actualRotation / sectionAngle + .5);
-        return id;
+        const actualRotation = fullCircle - this._currentRotation % fullCircle;
+        let index = ~~(actualRotation / sectionAngle + .5);
+        index = index === this._sectionData.length ? 0 : index;
+        return this._sectionData[index];
     }
 
     public spin(minSpeed = 2, maxSpeed = 5) {

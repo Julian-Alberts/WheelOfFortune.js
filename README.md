@@ -9,7 +9,7 @@ To use WheelOfFortune.js you need to load the WheelOfFortune.min.js. This will p
 
 #### Constructor
 ```typescript
-constructor(rootElement: HTMLElement, _sectionData: SectionData[], _winCallback: (id: number) => void, config: WheelOfFortuneConfig)
+constructor(rootElement: HTMLElement, _sectionData: SectionData[], _winCallback: (section: SectionnData) => void, config: WheelOfFortuneConfig)
 ```
 
 |parameter name| type | description | optional |
@@ -19,8 +19,13 @@ constructor(rootElement: HTMLElement, _sectionData: SectionData[], _winCallback:
 |_winCallback | (id: number) => void | Function that will be called when the wheel stops spinning. The id is the index of the section in the `_sectionData` array| no
 |config| WheelOfFortuneConfig | Advanced display options | yes
 
-#### spin()
+#### spin
+spin(minSpeed = 2, maxSpeed = 5)
 By calling this function the wheel will start to spin.
+|parameter name| type | description | optional |
+|-|-|-|-|
+|minSpeed|number|minimal rotations per second| yes
+|maxSpeed|number|maximal rotations per second| yes
 
 ### SectionData
 |parameter name| type | description | optional |
