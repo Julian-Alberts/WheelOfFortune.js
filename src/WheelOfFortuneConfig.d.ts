@@ -1,5 +1,8 @@
 declare class WheelOfFortuneConfig {
-    strokColor?: string;
+    stroke?: {
+        color: string,
+        width: number
+    }
     indicator? : {
         color?: string,
         style: 'none'|'static',

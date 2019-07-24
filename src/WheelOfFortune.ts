@@ -43,7 +43,9 @@ class WheelOfFortune {
         const ctx = canvas.getContext('2d');
         const fullCircle = Math.PI * 2;
         const sectionAngle = fullCircle / sectionData.length;
-
+        if (this._config.stroke) {
+            radius -= this._config.stroke.width * 2;
+        }
         ctx.save();
         ctx.translate(canvas.width / 2, canvas.height / 2);
         ctx.rotate((Math.PI + sectionAngle) / -2);
@@ -62,8 +64,9 @@ class WheelOfFortune {
             ctx.font = this._config.text.size + 'px ' + this._config.text.font;
             ctx.fillStyle = element.textColor || this._config.text.color;
             ctx.fillText(element.text, radius / 2, this._config.text.size/2, radius - 40);
-            if (this._config.strokColor) {
-                ctx.strokeStyle = this._config.strokColor;
+            if (this._config.stroke) {
+                ctx.strokeStyle = this._config.stroke.color;
+                ctx.lineWidth = this._config.stroke.width;
                 ctx.stroke();
             }
             ctx.restore();    
@@ -174,7 +177,10 @@ class WheelOfFortune {
             config.pins.margin = config.pins.margin || 10;
             config.pins.size = config.pins.size || 10;
         }
-        config.strokColor = config.strokColor || 'black';
+        if (config.stroke) {
+            config.stroke.color = config.stroke.color || 'black';
+            config.stroke.width = config.stroke.width || 1;
+        }
         if (!config.text) {
             config.text = {
                 color: 'black',
