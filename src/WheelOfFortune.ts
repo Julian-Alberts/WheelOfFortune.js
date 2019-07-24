@@ -160,7 +160,7 @@ class WheelOfFortune {
         }
     }
 
-    private _fillConfig(config: WheelOfFortuneConfig) {
+    private _fillConfig(config: WheelOfFortuneConfig): WheelOfFortuneConfig {
         if (config.indicator) {
             config.indicator.color = config.indicator.color || 'black';
             config.indicator.height = config.indicator.height || 30;
@@ -175,11 +175,17 @@ class WheelOfFortune {
             config.pins.size = config.pins.size || 10;
         }
         config.strokColor = config.strokColor || 'black';
-        if (config.text) {
-            config.text.color = config.text.color || 'black';
-            config.text.font = config.text.font || '15px Arial';
-            config.text.size = config.text.size || 15;
+        if (!config.text) {
+            config.text = {
+                color: 'black',
+                font: '15px Arial',
+                size: 15,
+            };
         }
+        config.text.color = config.text.color || 'black';
+        config.text.font = config.text.font || '15px Arial';
+        config.text.size = config.text.size || 15;
+        
         return config;
     }
 
