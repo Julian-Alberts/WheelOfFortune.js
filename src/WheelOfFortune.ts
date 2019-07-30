@@ -15,12 +15,6 @@ class WheelOfFortune {
         } else {
             this._canvas = document.createElement('canvas');
         }
-        config.indicator = {
-            color: 'black',
-            width: 20,
-            height: 30,
-            style: "static"
-        };
         this._config.indicator = config.indicator;
         if (config.indicator) {
             switch(config.indicator.style) {
@@ -44,7 +38,7 @@ class WheelOfFortune {
         const fullCircle = Math.PI * 2;
         const sectionAngle = fullCircle / sectionData.length;
         if (this._config.stroke) {
-            radius -= this._config.stroke.width * 2;
+            radius -= this._config.stroke.width;
         }
         ctx.save();
         ctx.translate(canvas.width / 2, canvas.height / 2);
@@ -167,10 +161,15 @@ class WheelOfFortune {
         if (config.indicator) {
             config.indicator.color = config.indicator.color || 'black';
             config.indicator.height = config.indicator.height || 30;
-            config.indicator.width = config.indicator.width || 10;
+            config.indicator.width = config.indicator.width || 20;
             config.indicator.style = config.indicator.style || 'none';
         } else {
-            config.indicator = {style: 'none'};
+            config.indicator = {
+                style: 'none',
+                color: 'balck',
+                height: 30,
+                width: 20
+            };
         }
         if (config.pins) {
             config.pins.color = config.pins.color || 'black';
