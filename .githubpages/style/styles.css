@@ -1,0 +1,24 @@
+canvas {
+    display: block;
+    margin: auto;
+}
+
+template {
+    display: none;
+}
+
+.color-input .form-control {
+    display: initial;
+}
+
+.color-input input.form-control {
+    width: calc(100% - 2.25rem - 2px);
+}
+
+.color-input button.form-control {
+    height: calc(2.25rem + 2px);
+    width: calc(2.25rem + 2px);
+    position: relative;
+    top: 5px;
+}
+
