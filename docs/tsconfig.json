@@ -3,5 +3,9 @@
         "rootDir": "src",
         "outDir": "scripts",
         "sourceMap": true,
-    }
+    },
+    "include": [
+        "src",
+        "../declaration"
+    ]
 }
