@@ -22,6 +22,7 @@ constructor(rootElement: HTMLElement, _sectionData: SectionData[], _winCallback:
 #### spin
 spin(minSpeed = 2, maxSpeed = 5)
 By calling this function the wheel will start to spin.
+
 |parameter name| type | description | optional |
 |-|-|-|-|
 |minSpeed|number|minimal rotations per second| yes
