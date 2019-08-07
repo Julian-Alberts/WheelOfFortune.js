@@ -8,6 +8,7 @@ class WheelOfFortune {
     private _indicator: Indicator;
     private _config: WheelOfFortuneConfig;
     private _winCallback: (section: SectionData) => void = () => {};
+    private _onUpdate: (section: SectionData) => void;
 
     constructor(rootElement: HTMLElement, private _sectionData: SectionData[], config: WheelOfFortuneConfig = {}) {
         this._config = config = this._fillConfig(config);
@@ -126,6 +127,11 @@ class WheelOfFortune {
             this._currentRotation += fullCircle * this._rotationsPerSecond / 1000 * timeSinceLastFrame;
         }
         this._render();
+
+        if (this._onUpdate) {
+            this._onUpdate(this._getCurrentTopSection());
+        }
+        
         if (this._rotationsPerSecond > 0) {
             window.requestAnimationFrame(timestamp => {
                 const timeSinceLastFrame = timestamp - this._lastFrame;
@@ -160,6 +166,10 @@ class WheelOfFortune {
 
     public setWinCallback(callback: (section: SectionData) => void) {
         this._winCallback = callback;
+    }
+
+    public setOnUpdate(callback: (section: SectionData) => void) {
+        this._onUpdate = callback;
     }
 
     private _fillConfig(config: WheelOfFortuneConfig): WheelOfFortuneConfig {
