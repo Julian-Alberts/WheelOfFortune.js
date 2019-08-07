@@ -33,6 +33,7 @@ Sets a callback function which will be called after a frame has been drawn.
 #### spin
 spin(minSpeed = 2, maxSpeed = 5)
 By calling this function the wheel will start to spin.
+
 |parameter name| type | description | optional |
 |-|-|-|-|
 |minSpeed|number|minimal rotations per second| yes
