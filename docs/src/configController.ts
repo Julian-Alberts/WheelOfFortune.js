@@ -16,6 +16,12 @@ class ConfigController {
         document.querySelector('[name="create-new--section"]').addEventListener('click', () => {
             this.createNewSectionConfig();
         });
+        document.getElementById('export-config').addEventListener('click', (e) => {
+            this.exportConfig();
+        });
+        document.getElementById('spin').addEventListener('click', () => {
+            this._wheelOfFortune.spin();
+        });
         this.createNewSectionConfig();
         this._wofConfigController = new WofConfigController(document.querySelector('.wof-config'));
         this._wofConfigController.onChange = (conf, val) => this.configChange(conf, val);
@@ -28,12 +34,12 @@ class ConfigController {
         controller.onRemove = (pos) => this.deleteSection(pos);
         this._sectionsController.push(controller);
         this._sections.push(controller.getSectionConfig());
-        this.updateWof();
+        this._updateWof();
     }
 
     public _sectionChange(pos: number, conf: SectionData) {
         this._sections[pos] = conf;
-        this.updateWof();
+        this._updateWof();
     }
 
     public configChange(configKey: string[], value: string | number) {
@@ -55,7 +61,7 @@ class ConfigController {
                 }
             }
         });
-        this.updateWof();
+        this._updateWof();
     }
 
     public deleteSection(position: number) {
@@ -72,7 +78,7 @@ class ConfigController {
             this._sectionsController[i].position = i;
         }
 
-        this.updateWof();
+        this._updateWof();
     }
 
     private _switchSectionPosition(position: number, dir: -1 | 1) {
@@ -97,11 +103,15 @@ class ConfigController {
             this._sectionsContainer.insertBefore(this._sectionsContainer.children[position], this._sectionsContainer.children[position - 1]);
         }
 
-        this.updateWof();
+        this._updateWof();
     }
 
-    private updateWof() {
+    private _updateWof() {
         this._wheelOfFortune = new WheelOfFortune(this._canvas, this._sections, console.log, this._config);
+    }
+
+    public exportConfig () {
+        const overlayController = new OverlayController(this._sections, this._config);
     }
 }
 

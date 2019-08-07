@@ -9,6 +9,12 @@ var ConfigController = /** @class */ (function () {
         document.querySelector('[name="create-new--section"]').addEventListener('click', function () {
             _this.createNewSectionConfig();
         });
+        document.getElementById('export-config').addEventListener('click', function (e) {
+            _this.exportConfig();
+        });
+        document.getElementById('spin').addEventListener('click', function () {
+            _this._wheelOfFortune.spin();
+        });
         this.createNewSectionConfig();
         this._wofConfigController = new WofConfigController(document.querySelector('.wof-config'));
         this._wofConfigController.onChange = function (conf, val) { return _this.configChange(conf, val); };
@@ -21,11 +27,11 @@ var ConfigController = /** @class */ (function () {
         controller.onRemove = function (pos) { return _this.deleteSection(pos); };
         this._sectionsController.push(controller);
         this._sections.push(controller.getSectionConfig());
-        this.updateWof();
+        this._updateWof();
     };
     ConfigController.prototype._sectionChange = function (pos, conf) {
         this._sections[pos] = conf;
-        this.updateWof();
+        this._updateWof();
     };
     ConfigController.prototype.configChange = function (configKey, value) {
         console.log(configKey, value);
@@ -49,7 +55,7 @@ var ConfigController = /** @class */ (function () {
                 }
             }
         });
-        this.updateWof();
+        this._updateWof();
     };
     ConfigController.prototype.deleteSection = function (position) {
         this._sections = this._sections.filter(function (_, key) {
@@ -62,7 +68,7 @@ var ConfigController = /** @class */ (function () {
         for (var i = position; i < this._sectionsController.length; i++) {
             this._sectionsController[i].position = i;
         }
-        this.updateWof();
+        this._updateWof();
     };
     ConfigController.prototype._switchSectionPosition = function (position, dir) {
         if (position + dir >= this._sections.length || position + dir < 0) {
@@ -82,10 +88,13 @@ var ConfigController = /** @class */ (function () {
         else {
             this._sectionsContainer.insertBefore(this._sectionsContainer.children[position], this._sectionsContainer.children[position - 1]);
         }
-        this.updateWof();
+        this._updateWof();
     };
-    ConfigController.prototype.updateWof = function () {
+    ConfigController.prototype._updateWof = function () {
         this._wheelOfFortune = new WheelOfFortune(this._canvas, this._sections, console.log, this._config);
+    };
+    ConfigController.prototype.exportConfig = function () {
+        var overlayController = new OverlayController(this._sections, this._config);
     };
     return ConfigController;
 }());
