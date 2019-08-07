@@ -38,7 +38,9 @@ textColor | string | Defines color for the text. If no color is specified the te
 ### WheelOfFortuneConfig
 |parameter name| type | description | optional |
 |-|-|-|-|
-strokColor | string;
+__stroke__ | |__Stroke configuration__ | __yes__
+storke.color | string | stroke color | yes 
+stroke.width | number | stroke width | yes
 __indicator__ | | __indicator configuration__ | __yes__
 indicator.color | string | Defines color for the indicator | yes
 indicator.style | 'none' \| 'static'| Defines the type of indicator | no
