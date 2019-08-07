@@ -16,8 +16,13 @@ constructor(rootElement: HTMLElement, _sectionData: SectionData[], _winCallback:
 |-|-|-|-|
 |rootElement | HTMLElement | The canvas the wheel woll be draw to. If the element is not an canvas one will be added to the given Element.|no
 |_sectionData| SectionData[] | Information about the Sections of the wheel| no
-|_winCallback | (id: number) => void | Function that will be called when the wheel stops spinning. The id is the index of the section in the `_sectionData` array| no
 |config| WheelOfFortuneConfig | Advanced display options | yes
+
+#### setWinCallback
+Sets a callback function which will be called when the wheel stops spinning.
+|parameter name| type | description | optional |
+|-|-|-|-|
+|_winCallback | (id: number) => void | Function that will be called when the wheel stops spinning. The id is the index of the section in the `_sectionData` array| no
 
 #### spin
 spin(minSpeed = 2, maxSpeed = 5)

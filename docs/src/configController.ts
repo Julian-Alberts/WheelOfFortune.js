@@ -107,7 +107,7 @@ class ConfigController {
     }
 
     private _updateWof() {
-        this._wheelOfFortune = new WheelOfFortune(this._canvas, this._sections, console.log, this._config);
+        this._wheelOfFortune = new WheelOfFortune(this._canvas, this._sections, this._config);
     }
 
     public exportConfig () {

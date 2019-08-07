@@ -7,8 +7,9 @@ class WheelOfFortune {
     private _wheelImg: HTMLImageElement;
     private _indicator: Indicator;
     private _config: WheelOfFortuneConfig;
+    private _winCallback: (section: SectionData) => void = () => {};
 
-    constructor(rootElement: HTMLElement, private _sectionData: SectionData[], private _winCallback: (section: SectionData) => void, config: WheelOfFortuneConfig = {}) {
+    constructor(rootElement: HTMLElement, private _sectionData: SectionData[], config: WheelOfFortuneConfig = {}) {
         this._config = config = this._fillConfig(config);
         if (rootElement.tagName === 'CANVAS') {
             this._canvas = <HTMLCanvasElement>rootElement;
@@ -155,6 +156,10 @@ class WheelOfFortune {
                 this._animateSpin(timeSinceLastFrame);
             });
         }
+    }
+
+    public setWinCallback(callback: (section: SectionData) => void) {
+        this._winCallback = callback;
     }
 
     private _fillConfig(config: WheelOfFortuneConfig): WheelOfFortuneConfig {

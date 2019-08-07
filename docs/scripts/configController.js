@@ -91,7 +91,7 @@ var ConfigController = /** @class */ (function () {
         this._updateWof();
     };
     ConfigController.prototype._updateWof = function () {
-        this._wheelOfFortune = new WheelOfFortune(this._canvas, this._sections, console.log, this._config);
+        this._wheelOfFortune = new WheelOfFortune(this._canvas, this._sections, this._config);
     };
     ConfigController.prototype.exportConfig = function () {
         var overlayController = new OverlayController(this._sections, this._config);

@@ -4,9 +4,10 @@ var OverlayView = /** @class */ (function () {
             '<button id="wheel-of-fortune--spin">Spin</button>\n' +
             '<output id="wheel-of-fortune--output"></output>\n' +
             '<script>\n' +
-            '\tvar wheelOfFortune = new WheelOfFortune(document.getElementById(\'wheel-of-fortune\'), {{sections}}, function(section) {\n' +
+            '\tvar wheelOfFortune = new WheelOfFortune(document.getElementById(\'wheel-of-fortune\'), {{sections}}, {{config}});\n' +
+            '\twheelOfFortune.setWinCallback(function(section) {\n' +
             '\t\tdocument.getElementById(\'wheel-of-fortune--output\').value = section.text;\n' +
-            '}, {{config}});\n' +
+            '\t});\n' +
             '\tdocument.getElementById(\'wheel-of-fortune--spin\').addEventListener(\'click\', function() {wheelOfFortune.spin()});\n' +
             '</script>\n';
         var overlayContainer = document.createElement('div');
