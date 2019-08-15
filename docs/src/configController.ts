@@ -75,7 +75,7 @@ class ConfigController {
         this._sectionsContainer.removeChild(this._sectionsContainer.children[position]);
 
         for(let i = position; i < this._sectionsController.length; i++) {
-            this._sectionsController[i].position = i;
+            this._sectionsController[i].setPosition(i);
         }
 
         this._updateWof();
@@ -94,8 +94,8 @@ class ConfigController {
         this._sections[position + dir] = srcSection;
         this._sectionsController[position + dir] = srcController;
 
-        this._sectionsController[position + dir].position = position + dir;
-        this._sectionsController[position].position = position;
+        this._sectionsController[position + dir].setPosition(position + dir);
+        this._sectionsController[position].setPosition(position);
 
         if (dir === 1) {
             this._sectionsContainer.insertBefore(this._sectionsContainer.children[position + 1], this._sectionsContainer.children[position]);
