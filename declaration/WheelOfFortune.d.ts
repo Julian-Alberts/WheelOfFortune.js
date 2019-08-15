@@ -16,7 +16,16 @@ declare class WheelOfFortune {
     private _animateSpin;
     private _getCurrentTopSection;
     spin(minSpeed?: number, maxSpeed?: number): void;
+    setConfige(config: WheelOfFortuneConfig): void;
+    setSectionData(sectionData: SectionData[]): void;
+    private _update;
     setWinCallback(callback: (section: SectionData) => void): void;
     setOnUpdate(callback: (section: SectionData) => void): void;
+    getIndicator(indicator: {
+        color?: string;
+        style: 'none' | 'static';
+        width?: number;
+        height?: number;
+    }): Indicator;
     private _fillConfig;
 }

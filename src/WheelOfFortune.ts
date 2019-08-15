@@ -17,18 +17,8 @@ class WheelOfFortune {
         } else {
             this._canvas = document.createElement('canvas');
         }
-        this._config.indicator = config.indicator;
-        if (config.indicator) {
-            switch(config.indicator.style) {
-                case 'static': 
-                    this._indicator = new StaticIndicator(config.indicator.color, config.indicator.width, config.indicator.height);
-                    break;
-            }
-        }
-
-        const radius = ((this._canvas.width > this._canvas.height ? this._canvas.height: this._canvas.width) / 2);
-        this._wheelImg = this._preRenderWheelToImg(this._sectionData, radius);
-        window.requestAnimationFrame(() => this._render());
+        this._indicator = this.getIndicator(this._config.indicator);
+        this._update();
     }
 
     private _preRenderWheelToImg(sectionData: SectionData[], radius: number): HTMLImageElement {
@@ -164,12 +154,38 @@ class WheelOfFortune {
         }
     }
 
+    public setConfige(config: WheelOfFortuneConfig) {
+        this._config = this._fillConfig(config);
+        this._indicator = this.getIndicator(this._config.indicator);
+        this._update();
+    }
+
+    public setSectionData(sectionData: SectionData[]) {
+        this._sectionData = sectionData;
+        this._update();
+    }
+
+    private _update() {
+        const radius = ((this._canvas.width > this._canvas.height ? this._canvas.height: this._canvas.width) / 2);
+        this._wheelImg = this._preRenderWheelToImg(this._sectionData, radius);
+        window.requestAnimationFrame(() => this._render());
+    }
+
     public setWinCallback(callback: (section: SectionData) => void) {
         this._winCallback = callback;
     }
 
     public setOnUpdate(callback: (section: SectionData) => void) {
         this._onUpdate = callback;
+    }
+
+    public getIndicator(indicator: { color?: string, style: 'none'|'static', width?: number, height?: number }): Indicator {
+        if (indicator) {
+            switch(indicator.style) {
+                case 'static': 
+                    return new StaticIndicator(indicator.color, indicator.width, indicator.height);
+            }
+        }
     }
 
     private _fillConfig(config: WheelOfFortuneConfig): WheelOfFortuneConfig {

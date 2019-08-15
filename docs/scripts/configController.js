@@ -5,6 +5,7 @@ var ConfigController = /** @class */ (function () {
         this._config = {};
         this._sections = [];
         this._canvas = document.getElementById('canvas');
+        this._wheelOfFortune = new WheelOfFortune(this._canvas, this._sections, this._config);
         this._sectionsContainer = document.querySelector('.section-config');
         document.querySelector('[name="create-new--section"]').addEventListener('click', function () {
             _this.createNewSectionConfig();
@@ -91,7 +92,8 @@ var ConfigController = /** @class */ (function () {
         this._updateWof();
     };
     ConfigController.prototype._updateWof = function () {
-        this._wheelOfFortune = new WheelOfFortune(this._canvas, this._sections, this._config);
+        this._wheelOfFortune.setConfige(this._config);
+        this._wheelOfFortune.setSectionData(this._sections);
     };
     ConfigController.prototype.exportConfig = function () {
         var overlayController = new OverlayController(this._sections, this._config);

@@ -12,6 +12,7 @@ class ConfigController {
     constructor() {
         this._sections = [];
         this._canvas = <HTMLCanvasElement>document.getElementById('canvas');
+        this._wheelOfFortune = new WheelOfFortune(this._canvas, this._sections, this._config);
         this._sectionsContainer = document.querySelector('.section-config');
         document.querySelector('[name="create-new--section"]').addEventListener('click', () => {
             this.createNewSectionConfig();
@@ -107,7 +108,8 @@ class ConfigController {
     }
 
     private _updateWof() {
-        this._wheelOfFortune = new WheelOfFortune(this._canvas, this._sections, this._config);
+        this._wheelOfFortune.setConfige(this._config);
+        this._wheelOfFortune.setSectionData(this._sections);
     }
 
     public exportConfig () {
