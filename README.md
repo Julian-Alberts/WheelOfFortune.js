@@ -20,12 +20,14 @@ constructor(rootElement: HTMLElement, _sectionData: SectionData[], _winCallback:
 
 #### setWinCallback
 Sets a callback function which will be called when the wheel stops spinning.
+
 |parameter name| type | description | optional |
 |-|-|-|-|
 |callback | (section: SectionData) => void | Function that will be called when the wheel stops spinning. The id is the index of the section in the `_sectionData` array| no
 
 #### setOnUpdate
 Sets a callback function which will be called after a frame has been drawn.
+
 |parameter name| type | description | optional |
 |-|-|-|-|
 |callback | (section: SectionData) => void | Function that will be called after each draw| no

@@ -71,9 +71,10 @@
                     size: 15
                 }
             }
-            var wof = new WheelOfFortune(document.getElementById('canvas'), sections, function (section) {
+            var wof = new WheelOfFortune(document.getElementById('canvas'), sections, config);
+            wof.setWinCallback(function (section) {
                 document.getElementById('output').innerText = section.text;
-            }, config)
+            });
         </script>
         <button type="button" class="btn btn-primary" onclick="wof.spin()">Spin</button>
         <output id="output"></output>
