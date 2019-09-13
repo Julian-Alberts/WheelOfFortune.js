@@ -1,6 +1,7 @@
 
 class SectionCofingController {
 
+    private static lastId = 0;
     private _sectionConfigModel: SectionConfigModel;
     private _sectionConfigView: SectionConfigView;
     public onChange: (position: number, sectionConfig: SectionConfigModel) => void;
@@ -9,7 +10,8 @@ class SectionCofingController {
 
     public constructor(root: HTMLElement, private _position: number) {
         this._sectionConfigModel = new SectionConfigModel();
-        this._sectionConfigView = new SectionConfigView(_position);
+        this._sectionConfigModel.id = SectionCofingController.lastId++;
+        this._sectionConfigView = new SectionConfigView(_position, this._sectionConfigModel.id);
         this._sectionConfigView.onChange = (id, text, textColor, backgroundColor) => {
             this._sectionConfigModel.id = id;
             this._sectionConfigModel.text = text;

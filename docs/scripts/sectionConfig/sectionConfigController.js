@@ -3,7 +3,8 @@ var SectionCofingController = /** @class */ (function () {
         var _this = this;
         this._position = _position;
         this._sectionConfigModel = new SectionConfigModel();
-        this._sectionConfigView = new SectionConfigView(_position);
+        this._sectionConfigModel.id = SectionCofingController.lastId++;
+        this._sectionConfigView = new SectionConfigView(_position, this._sectionConfigModel.id);
         this._sectionConfigView.onChange = function (id, text, textColor, backgroundColor) {
             _this._sectionConfigModel.id = id;
             _this._sectionConfigModel.text = text;
@@ -22,6 +23,7 @@ var SectionCofingController = /** @class */ (function () {
         this._position = pos;
         this._sectionConfigView.changeSection(pos);
     };
+    SectionCofingController.lastId = 0;
     return SectionCofingController;
 }());
 //# sourceMappingURL=sectionConfigController.js.map

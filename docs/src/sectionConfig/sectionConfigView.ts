@@ -10,13 +10,13 @@ class SectionConfigView {
     private _textColorElement: HTMLInputElement;
     private _backgroundColorElement: HTMLInputElement;
 
-    public constructor(pos: number) {
+    public constructor(pos: number, id: number) {
         this.rootElement = document.createElement('div');
         this.rootElement.classList.add('border', 'mb-2');
 
         this._initHeader(pos);
 
-        this._initBody();
+        this._initBody(id);
 
         this._initControls();
     }
@@ -41,11 +41,11 @@ class SectionConfigView {
         this.rootElement.appendChild(header);
     }
 
-    private _initBody() {
+    private _initBody(id: number) {
         const root = document.createElement('div');
         root.classList.add('m-2');
         root.classList.add('section--body');
-        this._idElement = this._createNewConfigElement(root, 'number', 'id', 'ID: ');
+        this._idElement = this._createNewConfigElement(root, 'number', 'id', 'ID: ', String(id));
         this._textElement = this._createNewConfigElement(root, 'text', 'text', 'Text: ');
         this._textColorElement = this._createNewConfigElement(root, 'color', 'text-color', 'Text Color: ');
         this._backgroundColorElement = this._createNewConfigElement(root, 'color', 'background-color', 'Background Color: ');
@@ -82,7 +82,7 @@ class SectionConfigView {
         this.rootElement.appendChild(root);
     }
 
-    private _createNewConfigElement(root: HTMLElement, type: string, name: string, label: string) {
+    private _createNewConfigElement(root: HTMLElement, type: string, name: string, label: string, defaultValue = '') {
         const wrapper = document.createElement('div');
         const labelElem = document.createElement('div');
         labelElem.innerText = label;
@@ -121,6 +121,7 @@ class SectionConfigView {
         elem.classList.add('form-control');
         elem.type = type;
         elem.name = name;
+        elem.value = defaultValue;
         elem.addEventListener('change', () => this._onChange());
         wrapper.appendChild(elem);
         return elem;

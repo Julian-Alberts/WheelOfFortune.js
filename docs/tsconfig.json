@@ -2,7 +2,7 @@
     "compilerOptions": {
         "rootDir": "src",
         "outDir": "scripts",
-        "sourceMap": true,
+        "sourceMap": true
     },
     "include": [
         "src",

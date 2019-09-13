@@ -1,9 +1,9 @@
 var SectionConfigView = /** @class */ (function () {
-    function SectionConfigView(pos) {
+    function SectionConfigView(pos, id) {
         this.rootElement = document.createElement('div');
         this.rootElement.classList.add('border', 'mb-2');
         this._initHeader(pos);
-        this._initBody();
+        this._initBody(id);
         this._initControls();
     }
     SectionConfigView.prototype._initHeader = function (pos) {
@@ -22,11 +22,11 @@ var SectionConfigView = /** @class */ (function () {
         });
         this.rootElement.appendChild(header);
     };
-    SectionConfigView.prototype._initBody = function () {
+    SectionConfigView.prototype._initBody = function (id) {
         var root = document.createElement('div');
         root.classList.add('m-2');
         root.classList.add('section--body');
-        this._idElement = this._createNewConfigElement(root, 'number', 'id', 'ID: ');
+        this._idElement = this._createNewConfigElement(root, 'number', 'id', 'ID: ', String(id));
         this._textElement = this._createNewConfigElement(root, 'text', 'text', 'Text: ');
         this._textColorElement = this._createNewConfigElement(root, 'color', 'text-color', 'Text Color: ');
         this._backgroundColorElement = this._createNewConfigElement(root, 'color', 'background-color', 'Background Color: ');
@@ -59,8 +59,9 @@ var SectionConfigView = /** @class */ (function () {
         root.appendChild(downButton);
         this.rootElement.appendChild(root);
     };
-    SectionConfigView.prototype._createNewConfigElement = function (root, type, name, label) {
+    SectionConfigView.prototype._createNewConfigElement = function (root, type, name, label, defaultValue) {
         var _this = this;
+        if (defaultValue === void 0) { defaultValue = ''; }
         var wrapper = document.createElement('div');
         var labelElem = document.createElement('div');
         labelElem.innerText = label;
@@ -97,6 +98,7 @@ var SectionConfigView = /** @class */ (function () {
         elem.classList.add('form-control');
         elem.type = type;
         elem.name = name;
+        elem.value = defaultValue;
         elem.addEventListener('change', function () { return _this._onChange(); });
         wrapper.appendChild(elem);
         return elem;
