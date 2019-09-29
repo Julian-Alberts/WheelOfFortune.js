@@ -9,16 +9,21 @@ class SectionConfigView {
     private _textElement: HTMLInputElement;
     private _textColorElement: HTMLInputElement;
     private _backgroundColorElement: HTMLInputElement;
+    private _hidden = false;
 
     public constructor(pos: number, id: number) {
         this.rootElement = document.createElement('div');
         this.rootElement.classList.add('border', 'mb-2');
 
+        const innerContainer = document.createElement('div');
+        innerContainer.classList.add('m-2', 'inner-container');
+
         this._initHeader(pos);
 
-        this._initBody(id);
+        this.rootElement.appendChild(innerContainer);
+        this._initBody(id, innerContainer);
 
-        this._initControls();
+        this._initControls(innerContainer);
     }
 
     private _initHeader(pos: number) {
@@ -30,31 +35,26 @@ class SectionConfigView {
         this._label.innerText = 'Section ' + (pos + 1);
         header.appendChild(this._label);
 
-        const hideButton = document.createElement('button');
-        hideButton.classList.add('btn');
-        hideButton.innerText = 'Hide';
-
-        hideButton.addEventListener('click', () => {
+        header.addEventListener('click', () => {
             this.rootElement.classList.toggle('hidden');
         });
 
         this.rootElement.appendChild(header);
     }
 
-    private _initBody(id: number) {
+    private _initBody(id: number, container: HTMLElement) {
         const root = document.createElement('div');
-        root.classList.add('m-2');
         root.classList.add('section--body');
         this._idElement = this._createNewConfigElement(root, 'number', 'id', 'ID: ', String(id));
         this._textElement = this._createNewConfigElement(root, 'text', 'text', 'Text: ');
         this._textColorElement = this._createNewConfigElement(root, 'color', 'text-color', 'Text Color: ');
         this._backgroundColorElement = this._createNewConfigElement(root, 'color', 'background-color', 'Background Color: ');
-        this.rootElement.appendChild(root);
+        container.appendChild(root);
     }
 
-    private _initControls() {
+    private _initControls(container: HTMLElement) {
         const root = document.createElement('div');
-        root.classList.add('m-2');
+        root.classList.add('mt-2');
 
         const upButton = document.createElement('button');
         upButton.innerText = 'Up';
@@ -79,7 +79,7 @@ class SectionConfigView {
         root.appendChild(rmButton);
         root.appendChild(downButton);
 
-        this.rootElement.appendChild(root);
+        container.appendChild(root);
     }
 
     private _createNewConfigElement(root: HTMLElement, type: string, name: string, label: string, defaultValue = '') {

@@ -43,3 +43,50 @@ template {
     width: 100%;
     height: 100%;
 }
+
+.section-config .hidden .inner-container {
+    height: 0;
+    overflow: hidden;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.section-config .inner-container {
+    transition-duration: 1s;
+    overflow: hidden;
+    height: 405px;
+}
+
+.section-config .inner-container {
+    transition-duration: 1s;
+    transition-property: height, margin-top, margin-bottom;
+    overflow: hidden;
+    height: 405px;
+}
+
+.section--header{
+    position: relative;
+}
+
+.section--header::after {
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    background-image: url(icons/angle-down-solid.svg);
+    display: block;
+    background-size: 35px 35px;
+    width: 23px;
+    height: 16px;
+    transition: transform .5s;
+    background-position: -6px -10px;
+}
+
+.hidden .section--header::after {
+    transform: rotate(180deg);
+}
+
+footer {
+    position: sticky;
+    bottom: 0;
+}

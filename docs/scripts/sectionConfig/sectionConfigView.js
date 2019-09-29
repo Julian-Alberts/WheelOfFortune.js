@@ -1,10 +1,14 @@
 var SectionConfigView = /** @class */ (function () {
     function SectionConfigView(pos, id) {
+        this._hidden = false;
         this.rootElement = document.createElement('div');
         this.rootElement.classList.add('border', 'mb-2');
+        var innerContainer = document.createElement('div');
+        innerContainer.classList.add('m-2', 'inner-container');
         this._initHeader(pos);
-        this._initBody(id);
-        this._initControls();
+        this.rootElement.appendChild(innerContainer);
+        this._initBody(id, innerContainer);
+        this._initControls(innerContainer);
     }
     SectionConfigView.prototype._initHeader = function (pos) {
         var _this = this;
@@ -14,28 +18,24 @@ var SectionConfigView = /** @class */ (function () {
         this._label = document.createElement('div');
         this._label.innerText = 'Section ' + (pos + 1);
         header.appendChild(this._label);
-        var hideButton = document.createElement('button');
-        hideButton.classList.add('btn');
-        hideButton.innerText = 'Hide';
-        hideButton.addEventListener('click', function () {
+        header.addEventListener('click', function () {
             _this.rootElement.classList.toggle('hidden');
         });
         this.rootElement.appendChild(header);
     };
-    SectionConfigView.prototype._initBody = function (id) {
+    SectionConfigView.prototype._initBody = function (id, container) {
         var root = document.createElement('div');
-        root.classList.add('m-2');
         root.classList.add('section--body');
         this._idElement = this._createNewConfigElement(root, 'number', 'id', 'ID: ', String(id));
         this._textElement = this._createNewConfigElement(root, 'text', 'text', 'Text: ');
         this._textColorElement = this._createNewConfigElement(root, 'color', 'text-color', 'Text Color: ');
         this._backgroundColorElement = this._createNewConfigElement(root, 'color', 'background-color', 'Background Color: ');
-        this.rootElement.appendChild(root);
+        container.appendChild(root);
     };
-    SectionConfigView.prototype._initControls = function () {
+    SectionConfigView.prototype._initControls = function (container) {
         var _this = this;
         var root = document.createElement('div');
-        root.classList.add('m-2');
+        root.classList.add('mt-2');
         var upButton = document.createElement('button');
         upButton.innerText = 'Up';
         upButton.addEventListener('click', function () {
@@ -57,7 +57,7 @@ var SectionConfigView = /** @class */ (function () {
         root.appendChild(upButton);
         root.appendChild(rmButton);
         root.appendChild(downButton);
-        this.rootElement.appendChild(root);
+        container.appendChild(root);
     };
     SectionConfigView.prototype._createNewConfigElement = function (root, type, name, label, defaultValue) {
         var _this = this;
